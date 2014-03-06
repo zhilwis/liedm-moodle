@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/ataskaita3/db" VERSION="20130520" COMMENT="XMLDB file for Moodle mod/vips"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+        >
+    <TABLES>
+        <TABLE NAME="daily_log" COMMENT="for reports">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="user_id"/>
+                <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="course"/>
+                <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="user_id" NEXT="module"/>
+                <FIELD NAME="module" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="course" NEXT="date"/>
+                <FIELD NAME="date" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" PREVIOUS="module" NEXT="amount"/>
+                <FIELD NAME="amount" TYPE="int" LENGTH="13" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="date" NEXT="spent_time"/>
+                <FIELD NAME="spent_time" TYPE="int" LENGTH="13" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="amount"/>
+
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key"/>
+            </KEYS>
+        </TABLE>
+    </TABLES>
+</XMLDB>
