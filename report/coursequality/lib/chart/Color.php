@@ -32,6 +32,6 @@ class Color {
 	}
 	
 	public function getHTMLColor(){
-		return "rgb(".$r.",".$g.",".$b.")";
+		return "rgb(".$this->r.",".$this->g.",".$this->b.")";
 	}
 }

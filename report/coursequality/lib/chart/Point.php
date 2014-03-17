@@ -13,4 +13,8 @@ class Point{
 		$this->y = $p->y;
 	}
 	
+	public function move ($x, $y){
+		$this->x += $x;
+		$this->y += $y;	
+	}
 }

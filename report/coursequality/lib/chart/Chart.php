@@ -15,21 +15,12 @@ interface Chart{
 
 abstract class AbstractChart extends DrawingComponent implements Chart{
 	
-	protected $image;
 	/**
 	 * @var Point
 	 */
 	protected $position;
-	protected $width;
-	protected $height;
-	/**
-	 * @var int
-	 */
-	protected $axis;
-	/**
-	 * @var int
-	 */
-	protected $oppositeAxis;
+	private $width;
+	private $height;
 		/**
 	 * @var Color
 	 */
@@ -45,25 +36,30 @@ abstract class AbstractChart extends DrawingComponent implements Chart{
 	/**
 	 * @var array[string]
 	 */
-	protected $titles;
-	
-	function AbstractChart($width, $height, $axis, $padding) {
-		$this->position = new Point($padding, $height-$padding);
-		$this->width = $width-$padding*2;
-		$this->height = $height-$padding*2;
-		$this->axis = $axis;
-		$this->oppositeAxis = ($axis==Chart::X)? Chart::Y : Chart::X;
-		$this->createImage($width, $height);
+	protected $titles = ["",""];
+
+	public function AbstractChart($position){
+		$this->position = $position;
+	}
+		
+	public function setSize($width, $height) {
+		$this->width = $width;
+		$this->height = $height;
 	}
 	
-	private function createImage($x,$y){
-		$this->image  = imagecreate($x, $y);
-		$orange = imagecolorallocate($this->image, 255, 255, 255);
+	
+	private function createImage(){
+		$image =  imagecreate($this->width, $this->height);
+		$orange = imagecolorallocate($image, 255, 255, 255);
+		return $image;
 	}
 	
 	protected function generateLabels($c,$min,$max){
+		
+		
 		$labels = [];
 		$max = $this->normalizedMax($c,$min,$max);
+		//var_dump("MAX: ".$max);
 		$step = $max / $c;
 		//echo(" STEP: ".$step);
 		for ($i=1; $i<=$c; $i++)
@@ -71,20 +67,21 @@ abstract class AbstractChart extends DrawingComponent implements Chart{
 		return $labels;
 	}
 	
-	protected function normalizedMax($c,$min,$max){
-		$max = $max - $min;
-		$max += $c - $max % $c;
-		return $max;
+	protected function normalizedMax($c,$min,$max,$scale=10){
+		$max = $max*$scale - $min*$scale;
+		if(($max % $c)>0)$max += $c - $max % $c;
+		return $max/$scale;
 	}
 	
 	public function createPNGChart(){
-		$this->draw($this->image);
-		imagepng($this->image);
-		imagedestroy($this->image);
+		$image = $this->createImage();
+		$this->draw($image);
+		imagepng($image);
+		imagedestroy($image);
 	}
 	
 	public function setTitle($axis, $title){
-		$titles[$axis] = $title;
+		$this->titles[$axis] = $title;
 	}
 	public function setForeground(Color $color){
 		$this->foregroundColor = $color;

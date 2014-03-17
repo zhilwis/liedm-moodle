@@ -1,7 +1,7 @@
 <?php
 require_once "DrawingComponent.php";
 class Axis extends DrawingComponent {
-	private $title;
+	private $title = "";
 	/**
 	 * @var array[string]
 	 */
@@ -25,12 +25,14 @@ class Axis extends DrawingComponent {
 	 * @var Color
 	 */
 	private $gridColor = null;
-	public function Axis($title, $position, $length, $layout = null) {
+	public function Axis($position, $length, $layout = null) {
 		if($layout==null) $layout = new HorizontalLayout();
-		$this->title = $title;
 		$this->length = $length;
 		$this->position = $position;
 		$this->layout = $layout;
+	}
+	public function setTitle($title){
+		$this->title = $title;
 	}
 	public function setAxisColor(Color $color){
 		$this->axisColor = $color;
@@ -46,15 +48,13 @@ class Axis extends DrawingComponent {
 	public function draw($image) {
 		$this->layout->createParallelLine ( $this->position, $this->length , $this->axisColor)->draw ( $image );
 		if (count ( $this->labels ) > 0) {
-			//var_dump($this->start);
 			$length = ($this->start>0)?$this->start:$this->delta;
 			foreach ( $this->labels as $label ) {
 				if ($this->layout->isGrid())
 					$this->layout->createIntersectingLine ( $this->position, $length, -$this->layout->getGridSize() , $this->axisColor)->draw ( $image );
 				if ($this->layout->isGridLabeled()){
-					$text = $this->layout->createIntersectingLabel ( $this->position, $length, 5, strlen($label)*3, $label);
+					$text = $this->layout->createIntersectingLabel ( $this->position, $length, 5, $label);
 					$text->draw($image);
-					
 					$this->layout->createIntersectingLine ( $this->position, $length, 3 , $this->gridColor)->draw ( $image );
 				}
 					
