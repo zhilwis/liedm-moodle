@@ -28,7 +28,10 @@ class Color {
 		return $v;
 	}
 	public function getColor($image){
-		return imagecolorallocate($image,$this->r,$this->g,$this->b);		
+		$c = imagecolorexact($image,$this->r,$this->g,$this->b);
+		if($c==-1)
+			$c = imagecolorallocate($image,$this->r,$this->g,$this->b);
+		return $c;		
 	}
 	
 	public function getHTMLColor(){

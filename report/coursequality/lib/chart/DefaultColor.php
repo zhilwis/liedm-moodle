@@ -18,7 +18,10 @@ class DefaultColor extends Color{
 			$this->i++;
 			return $color;
 		}else{
-			return new DefaultColor(rand(0,16777215));
+			$r = mt_rand(50,200); //r(ed)
+     		$g = mt_rand(50,200); //g(reen)
+     		$b = mt_rand(50,200); //b(lue)
+			return new Color($r, $g, $b);
 		}
 	}
 	
