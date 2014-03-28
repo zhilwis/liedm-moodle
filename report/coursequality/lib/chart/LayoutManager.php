@@ -34,5 +34,5 @@ abstract class LayoutManager {
 	 */
 	public abstract function createIntersectingLine(Point $p, $distance, $length, Color $color = null); 
 	public abstract function createColumn(Point $p, $width, $height, Color $color = null);
-	public abstract function createIntersectingLabel(Point $p, $distance, $length, $delta, $value, Color $color = null);
+	public abstract function createIntersectingLabel(Point $p, $distance, $length, $value, Color $color = null);
 }

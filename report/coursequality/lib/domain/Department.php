@@ -12,14 +12,15 @@ class Department extends DefaultDataSet implements Chartable {
 		return $this->color;
 	}
 	public function getValue(){
-		$mean = 0;
+		/*$mean = 0;
 		$size = count($this->data);
 		if ($size>0){
 			foreach ($this->data as $data)
 				$mean += $data->getValue();
 			$mean = $mean/$size;
 		}
-		return $mean;
+		return $mean;*/
+		return $this->size();
 	}
 	
 }

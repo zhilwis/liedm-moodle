@@ -28,6 +28,7 @@ $categoryid = optional_param('category', 0, PARAM_INT);// Course ID
 
 //CHECK IF USER IS LOGGED
 require_login();
+$PAGE->set_context(context_system::instance());
 //require_capability('report/coursequality:view', $context);
 
 if ($categoryid == 0){
@@ -42,7 +43,7 @@ if ($categoryid == 0){
 //PRINT HEADER
 $reportlink = '/report/coursequality/index.php';
 $PAGE->set_url($reportlink);
-$PAGE->set_title("Cource Quality");
+$PAGE->set_title(get_string('pluginname','report_coursequality'));
 $PAGE->set_pagelayout('report');
 admin_externalpage_setup('reportcoursequality');
 
@@ -52,6 +53,7 @@ echo $OUTPUT->box_start();
 
 
 $colorFactory = new DefaultColor();
+$chartBuilder = null;
 if (count($categories)>1){
 	//CHART
 	$chartdata = array(
@@ -74,7 +76,7 @@ if (count($categories)>1){
 	);
 	$table->attributes = array('style' => 'width: 100%;');
 	$table->data = array();
-	echo $OUTPUT->heading("All categories quality data");
+	echo $OUTPUT->heading(get_string('all_categories_data','report_coursequality'));
 	
 	
 	
@@ -116,41 +118,41 @@ if (count($categories)>1){
 		$table->data[] = new html_table_row($cells);
 	}
 	
-	$_SESSION["QUALITY_CHART_BUILDER"] = new DepartmentChartBuilder($chartdata);
+	//var_dump($chartdata);
+	
+	$chartBuilder = new DepartmentChartBuilder($chartdata);
 	
 	echo html_writer::table($table);
-	echo $OUTPUT->heading("All categories quality chart");
+	echo $OUTPUT->heading(get_string('all_categories_chart','report_coursequality'));
 }else{
-	$coursedata = array();
+	$coursedata = new DefaultDataSet($categories[0]->name);
 	$courses = $DB->get_records('course', array('category' => $categories[0]->id), 'sortorder ASC', 'id,fullname,shortname');
 	foreach ($courses as $course){
 		$number = rand(0,50)/10;
-		$coursedata [] = new Course($course->fullname, $course->shortname,$colorFactory->next(), $number);
+		$coursedata->add(new Course($course->fullname, $course->shortname,$colorFactory->next(), $number));
 	}
 	
-	$_SESSION["QUALITY_CHART_BUILDER"] = new CourseChartBuilder($coursedata);
+	$chartBuilder = new CourseChartBuilder($coursedata);
 	
 	
 	echo $OUTPUT->container_start('info');
 	$url = new moodle_url($reportlink);
 	echo $OUTPUT->action_link($url, get_string("showallcourses"));
 	echo $OUTPUT->container_end();
-	echo $OUTPUT->heading("'".$categories[0]->name."' category chart");
+
+	echo $OUTPUT->heading(get_string('category_chart','report_coursequality', $categories[0]->name));
 	
 }
 
+$_SESSION["QUALITY_CHART_BUILDER"] = $chartBuilder;
 
+echo $OUTPUT->box_start("quality-image");
+echo "<img src=\"qualitychart.php\" >";
+echo $OUTPUT->box_end();
 
-/*if (empty($table->data)) {
-	$cell = new html_table_cell($OUTPUT->notification(get_string('nocourses')));
-	$cell->colspan = 5;
-	$table->data[] = new html_table_row(array($cell));
-}*/
+//echo $OUTPUT->heading(get_string('legend','report_coursequality'));
 
-
-
-
-echo "<div align=\"center\"><img src=\"qualitychart.php\" ></div>";
+$chartBuilder->createLegend();
 
 
 

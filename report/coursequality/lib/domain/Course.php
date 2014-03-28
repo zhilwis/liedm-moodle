@@ -3,10 +3,10 @@ require_once "lib/data/Chartable.php";
 class Course extends AbstractDatum implements Chartable{
 	private $color;
 	private $value;
-	private $short;
-	public function Course($title,$short,$color,$value){
+	private $fullTitle;
+	public function Course($fullTitle,$title,$color,$value){
 		parent::__construct($title);
-		$this->short = $short;
+		$this->fullTitle = $fullTitle;
 		$this->color = $color;
 		$this->value = $value;
 	}
@@ -16,7 +16,7 @@ class Course extends AbstractDatum implements Chartable{
 	public function getValue(){
 		return $this->value;
 	}
-	public function getShort(){
-		return $this->short;
+	public function getFullTitle(){
+		return $this->fullTitle;
 	}
 }

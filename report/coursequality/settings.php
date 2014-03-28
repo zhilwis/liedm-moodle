@@ -16,7 +16,7 @@ defined('MOODLE_INTERNAL') || die;
 
 // just a link to course report
 //TODO add 'report/log:view' access rule
-$external_page = new admin_externalpage('reportcoursequality', get_string('coursequality', 'admin'), "$CFG->wwwroot/report/coursequality/index.php");
+$external_page = new admin_externalpage('reportcoursequality', get_string('pluginname','report_coursequality'), "$CFG->wwwroot/report/coursequality/index.php");
 $ADMIN->add('reports', $external_page);
 
 //error_log($external_page->path."\n\r", 3, "c:\\my-errors.log");
