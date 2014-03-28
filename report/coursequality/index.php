@@ -28,6 +28,7 @@ $categoryid = optional_param('category', 0, PARAM_INT);// Course ID
 
 //CHECK IF USER IS LOGGED
 require_login();
+$PAGE->set_context(context_system::instance());
 //require_capability('report/coursequality:view', $context);
 
 if ($categoryid == 0){
