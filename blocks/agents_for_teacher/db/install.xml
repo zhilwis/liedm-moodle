@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/agents_for_teacher/db" VERSION="20140109" COMMENT="XMLDB file for Moodle blocks/agents_for_teacher"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="questions_agent" COMMENT="Frequently asked questions" NEXT="questions_asked_agent">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="question"/>
+        <FIELD NAME="question" TYPE="char" LENGTH="1333" NOTNULL="true" SEQUENCE="false" PREVIOUS="course_id" NEXT="answer"/>
+        <FIELD NAME="answer" TYPE="char" LENGTH="1333" NOTNULL="true" SEQUENCE="false" PREVIOUS="question"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="questions_asked_agent" COMMENT="For counting questions asked" PREVIOUS="questions_agent" NEXT="activity_agent">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="user_id"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="user_id" NEXT="question_count"/>
+	<FIELD NAME="question_count" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="course_id"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="activity_agent" COMMENT="Default comment for the table, please edit me" PREVIOUS="questions_asked_agent" NEXT="missed_event_agent">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="user_id"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="user_id" NEXT="period"/>
+        <FIELD NAME="period" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="course_id" NEXT="last_call"/>
+        <FIELD NAME="last_call" TYPE="datetime" NOTNULL="false" SEQUENCE="false" PREVIOUS="period" NEXT="start_time"/>
+        <FIELD NAME="start_time" TYPE="datetime" NOTNULL="false" SEQUENCE="false" PREVIOUS="last_call"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+	<TABLE NAME="missed_event_agent" COMMENT="Default comment for the table, please edit me" PREVIOUS="activity_agent" NEXT="new_event_agent">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="missed_event"/>
+        <FIELD NAME="missed_event" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="course_id" NEXT="period"/>
+		<FIELD NAME="period" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="missed_event" NEXT="last_call"/>
+		<FIELD NAME="last_call" TYPE="datetime" NOTNULL="false" SEQUENCE="false" PREVIOUS="period" NEXT="start_time"/>
+        <FIELD NAME="start_time" TYPE="datetime" NOTNULL="false" SEQUENCE="false" PREVIOUS="last_call"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+	<TABLE NAME="new_event_agent" COMMENT="Default comment for the table, please edit me" PREVIOUS="missed_event_agent" NEXT="event_tracking_agent">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="user_id"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="user_id" NEXT="new_event"/>
+        <FIELD NAME="new_event" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" PREVIOUS="course_id" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+	<TABLE NAME="event_tracking_agent" COMMENT="Default comment for the table, please edit me" PREVIOUS="new_event_agent" NEXT="upcoming_event_agent">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="event_id"/>
+        <FIELD NAME="event_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+	<TABLE NAME="upcoming_event_agent" COMMENT="Default comment for the table, please edit me" PREVIOUS="event_tracking_agent">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="user_id"/>
+        <FIELD NAME="user_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="user_id" NEXT="first_event"/>
+        <FIELD NAME="first_event" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="course_id" NEXT="second_event"/>
+		<FIELD NAME="second_event" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="first_event" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
