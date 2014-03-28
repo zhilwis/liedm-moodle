@@ -1,0 +1,19 @@
+﻿.ingored-style{}
+.quality-color{
+	width:15px;
+	height:15px;
+	margin-left:10px;
+	margin-right:10px;
+	display:inline-block;
+}
+.quality-title{
+	display:inline-block;
+	margin:10px 30px 10px 10px;
+}
+.box .quality-image{
+	text-align:center;
+}
+.quality-legend{
+	padding:20px;
+	text-align:center;
+}

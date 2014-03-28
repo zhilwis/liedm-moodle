@@ -34,9 +34,9 @@ $PAGE->set_context(context_system::instance());
 if ($categoryid == 0){
 	$categories = $DB->get_records('course_categories');
 }else{
-	$categories[] = $DB->get_record('course_categories', array('id' => $categoryid));
-	$PAGE->set_heading($categories[0]->name);
-	$PAGE->navbar->add($categories[0]->name);
+	$categories[1] = $DB->get_record('course_categories', array('id' => $categoryid));
+	$PAGE->set_heading($categories[1]->name);
+	$PAGE->navbar->add($categories[1]->name);
 }	
 
 
@@ -88,12 +88,15 @@ if (count($categories)>1){
 		//TABLE
 		$cells = array();
 		$url = new moodle_url($reportlink, array('category'=>$category->id));
-		$cells[] = new html_table_cell($OUTPUT->action_link($url, $category->name));
+		
 				
 		for($i=0;$i<5;$i++){
 			$departments[$i] = new Department($category->name, $departmentcolor);
 		}
 		$courses = $DB->get_records('course', array('category' => $category->id), 'sortorder ASC', 'id,fullname,shortname');
+		if(count($courses)>0) $cells[] = new html_table_cell($OUTPUT->action_link($url, $category->name));
+		else $cells[] = new html_table_cell($category->name);
+		
 		foreach ($courses as $course){
 			$number = rand(0,50)/10;
 			if($number<1)
@@ -125,8 +128,8 @@ if (count($categories)>1){
 	echo html_writer::table($table);
 	echo $OUTPUT->heading(get_string('all_categories_chart','report_coursequality'));
 }else{
-	$coursedata = new DefaultDataSet($categories[0]->name);
-	$courses = $DB->get_records('course', array('category' => $categories[0]->id), 'sortorder ASC', 'id,fullname,shortname');
+	$coursedata = new DefaultDataSet($categories[1]->name);
+	$courses = $DB->get_records('course', array('category' => $categories[1]->id), 'sortorder ASC', 'id,fullname,shortname');
 	foreach ($courses as $course){
 		$number = rand(0,50)/10;
 		$coursedata->add(new Course($course->fullname, $course->shortname,$colorFactory->next(), $number));
@@ -140,7 +143,7 @@ if (count($categories)>1){
 	echo $OUTPUT->action_link($url, get_string("showallcourses"));
 	echo $OUTPUT->container_end();
 
-	echo $OUTPUT->heading(get_string('category_chart','report_coursequality', $categories[0]->name));
+	echo $OUTPUT->heading(get_string('category_chart','report_coursequality', $categories[1]->name));
 	
 }
 
