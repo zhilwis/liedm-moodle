@@ -72,6 +72,18 @@ function vuagentas_get_course_data($course){
     
 }
 
+function vuagentas_get_course_data_report($course){
+    GLOBAL $OUTPUT;
+    $data = vuagentas_get_record($course);
+    $data = vuagentas_check_rating($data);
+    if($data->total == null){
+        return 0;
+    } else {
+        return $data->total;
+    }
+    
+}
+
 function vuagentas_check_rating($data){
     $sectionscount = count($data->sections)-1;
     $config = get_config('vuagentas');
