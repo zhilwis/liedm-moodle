@@ -158,8 +158,9 @@ function vuagentas_check_forum_chat_glossary($data, $ratingunit, $forum, $chat, 
 
 function vuagentas_check_page_link_ppt_video($data, $check, $ratingunit, $page, $link, $ppt, $test, $video, $section){
     GLOBAL $DB, $OUTPUT;
-    $rating = 0; $ppage = 0; $llink = 0; $pppt = 0; $ttest = 0; $vvideo = 0;
+    $ppage = 0; $llink = 0; $pppt = 0; $ttest = 0; $vvideo = 0;
     $rating = new stdClass();
+    $rating->rating = 0;
     foreach ($data as $value) {
         if($ppage != $page){ 
             if($check[$value]->mod == 'page'){ $rating->rating += $ratingunit; $ppage++; }
