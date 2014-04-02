@@ -123,7 +123,7 @@ class BarChart extends AbstractChart{
 				$columnValue = $data->get($i)->getValue();
 				//var_dump($columnValue);
 				$max = $this->normalizedMax(10, 0, $this->max);
-				$columnWidth = ($columnValue/$max)*$this->axisWidth;
+				$columnWidth = ($max>0)? ($columnValue/$max)*$this->axisWidth : 0;
 				$rectangle = new FilledRectangle(new Point($this->position->x, $this->position->y-$length), $columnWidth, $height, $data->get($i)->getColor());
 				$rectangle->draw($image);
 				
