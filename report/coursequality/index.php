@@ -95,13 +95,13 @@ if (count($categories)>1){
 		foreach ($courses as $course){
 			//$number = rand(0,50)/10;
 			$number = vuagentas_get_course_data_report($course->id);
-			if($number<1)
+			if($number<20)
 				$departments [0]->add(new Course($course->fullname, $course->shortname,null, $number));
-			elseif ($number>=1&&$number<2)
+			elseif ($number>=20&&$number<40)
 				$departments [1]->add(new Course($course->fullname, $course->shortname,null, $number));
-			elseif ($number>=2&&$number<3)
+			elseif ($number>=40&&$number<60)
 				$departments [2]->add(new Course($course->fullname, $course->shortname,null, $number));
-			elseif ($number>=3&&$number<4)
+			elseif ($number>=60&&$number<80)
 				$departments [3]->add(new Course($course->fullname, $course->shortname,null, $number));
 			else 
 				$departments [4]->add(new Course($course->fullname, $course->shortname,null, $number));
