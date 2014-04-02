@@ -11,7 +11,6 @@
 
 
 //REQUIRE SOME LIBRERIES
-
 require('../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 require_once('lib/chart/DefaultColor.php');
@@ -20,8 +19,8 @@ require_once('lib/domain/Department.php');
 require_once('lib/domain/Course.php');
 require_once('lib/chart/DepartmentChartBuilder.php');
 require_once('lib/chart/CourseChartBuilder.php');
-//require_once($CFG->dirroot.'/course/lib.php');
-//require_once($CFG->dirroot.'/report/log/locallib.php');
+if(file_exists ($CFG->dirroot.'/blocks/vuagentas/lib.php'))
+	require_once ($CFG->dirroot.'/blocks/vuagentas/lib.php');
 
 //GET PARAMETRS FROM URL
 $categoryid = optional_param('category', 0, PARAM_INT);// Course ID
@@ -39,7 +38,6 @@ if ($categoryid == 0){
 	$PAGE->navbar->add($categories[1]->name);
 }	
 
-
 //PRINT HEADER
 $reportlink = '/report/coursequality/index.php';
 $PAGE->set_url($reportlink);
@@ -47,10 +45,11 @@ $PAGE->set_title(get_string('pluginname','report_coursequality'));
 $PAGE->set_pagelayout('report');
 admin_externalpage_setup('reportcoursequality');
 
-
 echo $OUTPUT->header();
 echo $OUTPUT->box_start();
 
+if(!function_exists("vuagentas_get_course_data_report"))
+	print_error('err_noplugin', 'report_coursequality', $CFG->wwwroot.'/course/report.php');
 
 $colorFactory = new DefaultColor();
 $chartBuilder = null;
@@ -78,9 +77,6 @@ if (count($categories)>1){
 	$table->data = array();
 	echo $OUTPUT->heading(get_string('all_categories_data','report_coursequality'));
 	
-	
-	
-	
 	foreach ($categories as $category){
 		//CHART
 		$departmentcolor = $colorFactory->next();
@@ -89,7 +85,6 @@ if (count($categories)>1){
 		$cells = array();
 		$url = new moodle_url($reportlink, array('category'=>$category->id));
 		
-				
 		for($i=0;$i<5;$i++){
 			$departments[$i] = new Department($category->name, $departmentcolor);
 		}
@@ -98,7 +93,8 @@ if (count($categories)>1){
 		else $cells[] = new html_table_cell($category->name);
 		
 		foreach ($courses as $course){
-			$number = rand(0,50)/10;
+			//$number = rand(0,50)/10;
+			$number = vuagentas_get_course_data_report($course->id);
 			if($number<1)
 				$departments [0]->add(new Course($course->fullname, $course->shortname,null, $number));
 			elseif ($number>=1&&$number<2)
@@ -121,8 +117,6 @@ if (count($categories)>1){
 		$table->data[] = new html_table_row($cells);
 	}
 	
-	//var_dump($chartdata);
-	
 	$chartBuilder = new DepartmentChartBuilder($chartdata);
 	
 	echo html_writer::table($table);
@@ -131,12 +125,12 @@ if (count($categories)>1){
 	$coursedata = new DefaultDataSet($categories[1]->name);
 	$courses = $DB->get_records('course', array('category' => $categories[1]->id), 'sortorder ASC', 'id,fullname,shortname');
 	foreach ($courses as $course){
-		$number = rand(0,50)/10;
+		//$number = rand(0,50)/10;
+		$number = vuagentas_get_course_data_report($course->id);
 		$coursedata->add(new Course($course->fullname, $course->shortname,$colorFactory->next(), $number));
 	}
 	
 	$chartBuilder = new CourseChartBuilder($coursedata);
-	
 	
 	echo $OUTPUT->container_start('info');
 	$url = new moodle_url($reportlink);
@@ -150,14 +144,10 @@ if (count($categories)>1){
 $_SESSION["QUALITY_CHART_BUILDER"] = $chartBuilder;
 
 echo $OUTPUT->box_start("quality-image");
-echo "<img src=\"qualitychart.php\" >";
+echo "<img src=\"qualitychart.php?".rand(0, 1234345)."\" >";
 echo $OUTPUT->box_end();
 
-//echo $OUTPUT->heading(get_string('legend','report_coursequality'));
-
 $chartBuilder->createLegend();
-
-
 
 //PRINT FOOTER
 echo $OUTPUT->box_end();
