@@ -93,15 +93,14 @@ if (count($categories)>1){
 		else $cells[] = new html_table_cell($category->name);
 		
 		foreach ($courses as $course){
-			//$number = rand(0,50)/10;
-			$number = vuagentas_get_course_data_report($course->id);
-			if($number<20)
+			$number = vuagentas_get_course_data_report($course->id)/20;
+			if($number<1)
 				$departments [0]->add(new Course($course->fullname, $course->shortname,null, $number));
-			elseif ($number>=20&&$number<40)
+			elseif ($number>1&&$number<2)
 				$departments [1]->add(new Course($course->fullname, $course->shortname,null, $number));
-			elseif ($number>=40&&$number<60)
+			elseif ($number>=2&&$number<3)
 				$departments [2]->add(new Course($course->fullname, $course->shortname,null, $number));
-			elseif ($number>=60&&$number<80)
+			elseif ($number>=3&&$number<4)
 				$departments [3]->add(new Course($course->fullname, $course->shortname,null, $number));
 			else 
 				$departments [4]->add(new Course($course->fullname, $course->shortname,null, $number));
@@ -126,7 +125,7 @@ if (count($categories)>1){
 	$courses = $DB->get_records('course', array('category' => $categories[1]->id), 'sortorder ASC', 'id,fullname,shortname');
 	foreach ($courses as $course){
 		//$number = rand(0,50)/10;
-		$number = vuagentas_get_course_data_report($course->id);
+		$number = vuagentas_get_course_data_report($course->id)/20;
 		$coursedata->add(new Course($course->fullname, $course->shortname,$colorFactory->next(), $number));
 	}
 	
