@@ -108,6 +108,7 @@ function vuagentas_check_rating($data){
         foreach($data->sections as $key => $value){
             if($key != 0){
                 $reddata = vuagentas_check_page_link_ppt_video($value, $data->modules, $ratingunit, $config->page, $config->link, $config->ppt, $config->testai, $config->video, $key);
+                if(is_object($reddata) && !empty($reddata->rating) && $reddata->rating != 0)
                 $rating += $reddata->rating;
                 if(!empty($reddata->err))
                 $data->err[$key] = $reddata->err;
