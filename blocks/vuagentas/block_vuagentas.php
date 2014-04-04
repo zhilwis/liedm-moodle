@@ -47,7 +47,7 @@ class block_vuagentas extends block_base {
         }
         
         $this->content->text .= vuagentas_get_course_data($course->id);
-        $context = context_module::instance($course->id);
+        $context = context_course::instance($course->id);
         $canmanage = has_capability('block/vuagentas:checkrating', $context);
         
         if($canmanage){
