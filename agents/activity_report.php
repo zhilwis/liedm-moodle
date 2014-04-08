@@ -29,14 +29,13 @@ if (!$course = $DB->get_record('course', array('id' => $id))) {
 }
 
 require_login($course);
-$PAGE->set_url('/activity_report.php', array('id' => $cm->id));
+$PAGE->set_url('/activity_report.php', array('id' => $id));
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title($COURSE->fullname);
 $PAGE->set_heading($COURSE->fullname);
 $PAGE->navbar->add(get_string('course_act_rep', 'block_agents_for_teacher'), new moodle_url('../agents/activity_report.php?id=' . $_GET['id']));
 
-$question = $_POST['question'];
-$answer = $_POST['answer'];
+
 $crs = $id;
 $userid = $USER->id;
 
