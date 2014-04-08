@@ -72,7 +72,7 @@ class block_vuagentas extends block_base {
     }
 
     public function instance_allow_multiple() {
-          return true;
+          return false;
     }
     
     function has_config() {return true;}
