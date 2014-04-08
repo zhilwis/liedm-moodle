@@ -72,8 +72,9 @@ class BarChart extends AbstractChart{
 		$this->axisList[Chart::Y] = new Axis($this->position, $this->axisHeight, $this->vLayout);
 	}
 		
-	public function addDataSet(DefaultDataSet $data){
+	public function addDataSet(DefaultDataSet $data, $max = 0){
 		$this->labelList[$this->axis][] = $data->getTitle();
+		if($max>$this->max) $this->max = $max;
 		if($data->max()>$this->max) $this->max = $data->max();
 		$this->dataList[] = $data;	
     }

@@ -15,7 +15,7 @@ class CourseChartBuilder extends AbstractChartBuilder {
 		$padding->bottom += 20;
 		
 		$height = $this->courseData->size()*(15+15)+$padding->bottom+$padding->top+20;
-		$chart->addDataSet($this->courseData);
+		$chart->addDataSet($this->courseData,5);
 		
 		$chart->setSize(700, $height, $padding);
 		$chart->createPNGChart();
