@@ -48,7 +48,7 @@ $string['ratingnull'] = 'Nėra įvertinimo';
 $string['ratingnull2'] = 'Šiame kurse yra sukurta daug sekcijų, kuriose nėra jokių mokymo objektų. Dėl šios priežasties negalima įvertinti šio kurso.';
 $string['ratingnull2_help'] = 'Kurso nustatymuose panaikinkite tuščias sekcijas arba sukurkite jose naujus mokymo objektus.';
 
-$string['recount'] = 'Perskačiuoti';
+$string['recount'] = 'Perskaičiuoti';
 
 $string['newblock:addinstance'] = 'Add a newblock block';
 $string['newblock:myaddinstance'] = 'Add a newblock block to my moodle';

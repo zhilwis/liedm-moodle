@@ -102,4 +102,3 @@ if (($roleid == 5) || ($roleid == 6) || ($roleid == 7) || ($roleid == 8)) {
 <?    
     echo $OUTPUT->footer();
 }
-?>
